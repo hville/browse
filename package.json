@@ -1,0 +1,30 @@
+{
+	"name": "@hugov/browse",
+	"version": "0.0.1",
+	"type": "module",
+	"description": "run in browser",
+	"keywords": [
+		"chrome",
+		"serve",
+		"open"
+	],
+	"author": "Hugo Villeneuve",
+	"private": false,
+	"bin": {
+		"browse": "./browse.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hville/browse.git"
+	},
+	"dependencies": {
+		"chrome-launcher": "^0.14.0",
+		"esbuild": "^0.12.24"
+	},
+	"devDependencies": {
+	},
+	"scripts": {
+		"test": "node browse ./tst/test.js"
+	},
+	"license": "MIT"
+}
