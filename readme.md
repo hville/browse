@@ -29,6 +29,7 @@ Anywhere: `npx browse pathToMyScript.js`
 
 * Only chrome for now
 * no html for now
+* watch and reload not yet implemented
 
 # License
 
