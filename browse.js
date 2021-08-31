@@ -1,4 +1,4 @@
-import {createServer} from 'http'
+import * as http from 'http'
 import esbuild from 'esbuild'
 import ChromeLauncher from 'chrome-launcher'
 import {resolve} from 'path'
@@ -10,52 +10,45 @@ const flags = ChromeLauncher.Launcher.defaultFlags()
 
 const args = process.argv.slice(2),
 			path = resolve(process.cwd(), args[0]),
-			html = wrap(await fuse(path)),
-			{port} = serve(html),
-			{kill} = open(port)
-//server.on('close', ()=>console.log('CLOSE'))
-//server.close()
+			port = 8080
 
-async function fuse(path) {
-	const bundle = await esbuild.build({
-		entryPoints: [path],
-		bundle: true,
-		write: false,
-		watch: {
-			onRebuild(error, result) {
-				if (error) console.error('watch build failed:', error)
-				else console.log('watch build succeeded:', result)
+let html = '',
+		pendingResponse = null
+
+function createHTML(result) {
+	html = /* html */`<!DOCTYPE html>
+	<script>${	result.outputFiles[0].text }</script>
+	<script>fetch('RELOAD?').then( response => location.reload() )</script>
+	`
+}
+
+http.createServer(function (req, res) {
+	console.log('request', req.url, req.method, !!req.socket)
+	if (req.url === '/') res.writeHead(200).end(html)
+	else if (req.url === '/RELOAD?') pendingResponse = res
+	//else /favicon.ico
+}).listen(port)
+
+esbuild.build({
+	entryPoints: [path],
+	bundle: true,
+	write: false,
+	watch: {
+    onRebuild(error, result) {
+      if (error) console.error('watch rebuild failed:', error)
+      else {
+				createHTML(result)
+				if (pendingResponse) pendingResponse.writeHead(200).end()
+				pendingResponse = null
+				console.log('rebuild and reloaded')
 			}
-		}
-	})
-	return bundle.outputFiles[0].text
-}
-
-/*
-,
-
-*/
-
-
-function wrap(code) {
-	return /* html */`<!DOCTYPE html><script>${	code }</script>`
-}
-
-function serve(html) {
-	return createServer(function (req, res) {
-		//__dirname + req.url
-		//res.writeHead(404);
-		//res.end(JSON.stringify(err));
-		res.writeHead(200)
-		res.end(html)
-	}).listen(8080)
-}
-
-async function open(port=8080) {
-	return await ChromeLauncher.launch({
-		startingUrl: `http://localhost:${ port }/`,
+    }
+	}
+}).then(result => {
+	createHTML(result)
+	ChromeLauncher.launch({
+		startingUrl: `http://localhost:${ port }`,
 		ignoreDefaultFlags: true,
 		chromeFlags: flags,
 	})
-	//await ChromeLauncher.killAll()
-}
+})

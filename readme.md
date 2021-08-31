@@ -2,7 +2,7 @@
 # browse
 
 *because it should not be so complicated* -
-***run file in browser***
+***run code in browser with watch mode and reload***
 
 • [Why](#why) • [How](#how) • [License](#license) •
 
@@ -27,9 +27,8 @@ Anywhere: `npx browse pathToMyScript.js`
 
 ### Limitations
 
-* Only chrome for now
-* no html for now
-* watch and reload not yet implemented
+* Only chrome (uses Chrom Launcher and flags)
+* no html entry for now (script/modules only)
 
 # License
 
