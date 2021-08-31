@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as http from 'http'
 import esbuild from 'esbuild'
 import ChromeLauncher from 'chrome-launcher'
