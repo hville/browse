@@ -1,31 +1,35 @@
 {
-	"name": "@hugov/browse",
-	"version": "0.1.1",
-	"type": "module",
-	"description": "run in browser",
-	"keywords": [
-		"chrome",
-		"serve",
-		"open"
-	],
-	"author": "Hugo Villeneuve",
-	"private": false,
-	"bin": {
-		"browse": "./browse.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/hville/browse.git"
-	},
-	"dependencies": {
-		"chrome-launcher": "^0.14.0",
-		"esbuild": "^0.12.24"
-	},
-	"devDependencies": {
-	},
-	"scripts": {
-		"test": "node browse ./tst/test.js",
+  "name": "@hugov/browse",
+  "version": "0.2.0",
+  "type": "module",
+  "main": "./browse.js",
+  "description": "run in browser",
+  "keywords": [
+    "chrome",
+    "serve",
+    "open"
+  ],
+  "author": "Hugo Villeneuve",
+  "private": false,
+  "bin": {
+    "browse": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hville/browse.git"
+  },
+  "dependencies": {
+    "chrome-launcher": "^0.14.0",
+    "esbuild": "^0.12.24"
+  },
+  "scripts": {
+    "test": "node browse ./tst/test.js",
     "pub": "npm publish --access public"
-	},
-	"license": "MIT"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hville/browse/issues"
+  },
+  "homepage": "https://github.com/hville/browse#readme",
+  "devDependencies": {}
 }
